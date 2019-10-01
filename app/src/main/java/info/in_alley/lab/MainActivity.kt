@@ -62,16 +62,13 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         db.runInTransaction {
             db.query("DELETE FROM orders;", arrayOf())
-//            db.query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'orders';", arrayOf())
             db.query("DELETE FROM products;", arrayOf())
-//            db.query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'products';", arrayOf())
             db.query("DELETE FROM order_products;", arrayOf())
-//            db.query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'order_products';", arrayOf())
             db.query("VACUUM\n;", arrayOf())
 
             val start = Date().time
             val now = Date().time / 1000
-            for (index in 1..10000) {
+            for (index in 1..100) {
                 orderDao.insert(
                     Order(
                         id = index.toLong(),
@@ -80,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            for (index in 1..1000) {
+            for (index in 1..10) {
                 // 金額轉為 10^6 避免小數點
                 val pricePower6 = ((Math.random() * 10000).toInt() * 1000000).toLong()
                 productDao.insert(
@@ -92,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            for (index in 1..99999) {
+            for (index in 1..999) {
                 orderProductDao.insert(
                     OrderProduct(
                         id = index.toLong(),
